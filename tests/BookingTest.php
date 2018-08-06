@@ -8,9 +8,9 @@ class BookingTest extends \PHPUnit_Framework_TestCase
     protected static $booking_id;
 
     // Note:
-        // Super diligent unit testing would involve testing for errors
-        // and exceptions through various inputs and so forth, for the sake
-        // of simplicity I will just be testing each function for success
+    // Super diligent unit testing would involve testing for errors
+    // and exceptions through various inputs and so forth, for the sake
+    // of simplicity I will just be testing each function for success
 
     // PHP Unit runs this first!
     public static function setUpBeforeClass()
@@ -37,7 +37,7 @@ class BookingTest extends \PHPUnit_Framework_TestCase
         self::$db = null;
     }
 
-    public function test_create_booking() 
+    public function test_create_booking()
     {
         $booking = new \App\source\Booking(self::$db);
         $test = array(
@@ -63,7 +63,7 @@ class BookingTest extends \PHPUnit_Framework_TestCase
         self::$booking_id = $result['id'];
     }
 
-    public function test_update_booking() 
+    public function test_update_booking()
     {
         $booking = new \App\source\Booking(self::$db);
         $test = array(
@@ -87,7 +87,7 @@ class BookingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result['reason'], 'bronchitis');
     }
 
-    public function test_get_booking() 
+    public function test_get_booking()
     {
         $booking = new \App\source\Booking(self::$db);
         $result = $booking->get_booking_by_id(
@@ -101,7 +101,7 @@ class BookingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result['end'], '2018-01-01 14:00:00');
     }
 
-    public function test_delete_booking() 
+    public function test_delete_booking()
     {
         $booking = new \App\source\Booking(self::$db);
         $result = $booking->delete_booking(

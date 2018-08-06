@@ -35,7 +35,8 @@ $booking = new \App\source\Booking($db);
 require __DIR__ . '/../app/routes.php';
 
 $app->get(
-    '/', function ($request, $response) {
+    '/',
+    function ($request, $response) {
         return '';
     }
 );

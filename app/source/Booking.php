@@ -11,7 +11,7 @@ class Booking
 {
     private $db;
 
-    public function __construct($db) 
+    public function __construct($db)
     {
         $this->db = $db;
     }
@@ -21,7 +21,7 @@ class Booking
      ***************/
 
     // Delete booking by id
-    public function delete_booking($id = 0) 
+    public function delete_booking($id = 0)
     {
         $this->_validate_int($id);
 
@@ -29,13 +29,13 @@ class Booking
     }
 
     // Get all bookings
-    public function get_bookings() 
+    public function get_bookings()
     {
         return $this->_get_bookings();
     }
 
     // Get bookings by id
-    public function get_booking_by_id($id = 0) 
+    public function get_booking_by_id($id = 0)
     {
         $this->_validate_int($id);
 
@@ -44,14 +44,14 @@ class Booking
 
     // Create booking
     // Note:
-        // If you wanted to be really diligent on validation, you would
-        // ensure start date is always before end date and that newly
-        // created bookings do not overlap with existing bookings
-        // This could easily be done by NOT allowing inserts where:
-            // new start < existing end AND new_end > existing start
-        // In the interest of keeping this simple I am just doing basic
-        // input validation
-    public function create_booking($username = '', $reason = '', $start = '', $end = '') 
+    // If you wanted to be really diligent on validation, you would
+    // ensure start date is always before end date and that newly
+    // created bookings do not overlap with existing bookings
+    // This could easily be done by NOT allowing inserts where:
+    // new start < existing end AND new_end > existing start
+    // In the interest of keeping this simple I am just doing basic
+    // input validation
+    public function create_booking($username = '', $reason = '', $start = '', $end = '')
     {
         $this->_validate_username($username);
         $this->_validate_reason($reason);
@@ -63,14 +63,14 @@ class Booking
 
     // Update booking by ID fields are optional!
     // Note:
-        // If you wanted to be really diligent on validation, you would
-        // ensure start date is always before end date and that
-        // updated bookings do not overlap with existing bookings
-        // This could easily be done by NOT allowing updates where:
-            // new start < existing end AND new_end > existing start
-        // In the interest of keeping this simple I am just doing basic
-        // input validation
-    public function update_booking($id = 0, $username = '', $reason = '', $start = '', $end = '') 
+    // If you wanted to be really diligent on validation, you would
+    // ensure start date is always before end date and that
+    // updated bookings do not overlap with existing bookings
+    // This could easily be done by NOT allowing updates where:
+    // new start < existing end AND new_end > existing start
+    // In the interest of keeping this simple I am just doing basic
+    // input validation
+    public function update_booking($id = 0, $username = '', $reason = '', $start = '', $end = '')
     {
         $this->_validate_int($id);
         if ($username !== '') {
@@ -87,9 +87,9 @@ class Booking
         }
 
         // Check if nothing is being updated:
-            // 1. Put params into array
-            // 2. array_filter to remove all empty string values
-            // 3. Check if remaining array is empty, if so, nothing being updated
+        // 1. Put params into array
+        // 2. array_filter to remove all empty string values
+        // 3. Check if remaining array is empty, if so, nothing being updated
         if (empty(array_filter(array($username, $reason, $start, $end)))) {
             throw new InvalidArgumentException;
         }
@@ -102,12 +102,11 @@ class Booking
      ***************/
 
     // ID present: return 1 record; No ID: return all!
-    private function _get_bookings($id = 0) 
+    private function _get_bookings($id = 0)
     {
         if ($id) {
             return (array) $this->db->table('bookings')->find($id);
-        }
-        else {
+        } else {
             // Could implement limit / offset if result set is really large
             $bookings = $this->db->table('bookings')->get()->toArray();
             return $this->_build_result_array($bookings);
@@ -115,7 +114,7 @@ class Booking
     }
 
     // Create booking fields are NOT optional!
-    private function _create_booking($username, $reason, $start, $end) 
+    private function _create_booking($username, $reason, $start, $end)
     {
         // Insert new value and get auto increment ID
         $id = $this->db->table('bookings')->insertGetId([
@@ -130,13 +129,13 @@ class Booking
     }
 
     // Delete booking by ID
-    private function _delete_booking($id) 
+    private function _delete_booking($id)
     {
         return $this->db->table('bookings')->where('id', $id)->delete();
     }
 
     // Update booking by ID fields are optional!
-    private function _update_booking($id, $username = '', $reason = '', $start = '', $end = '') 
+    private function _update_booking($id, $username = '', $reason = '', $start = '', $end = '')
     {
         $update = array();
 
@@ -164,7 +163,7 @@ class Booking
      ***************/
 
     // Build associative array with ID as index our of result object(s)
-    private function _build_result_array($results) 
+    private function _build_result_array($results)
     {
         $result_array = array();
         foreach ($results as $result) {
@@ -175,37 +174,37 @@ class Booking
     }
 
     // For our purposes a valid int is always unsigned and > 1
-    private function _validate_int($int = 0) 
+    private function _validate_int($int = 0)
     {
         if (filter_var($int, FILTER_VALIDATE_INT, array('options' => array('min_range' => 1))) === false) {
-            Throw new InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
     }
 
     // Username validation will be alphanumeric > 5 chars
-    private function _validate_username($username = '') 
+    private function _validate_username($username = '')
     {
         if (! preg_match('/^\w{5,}$/', $username)) {
-            Throw new InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
     }
 
     // Reason validation will be alphanumeric + horizontal spaces > 5 chars
-    private function _validate_reason($reason = '') 
+    private function _validate_reason($reason = '')
     {
         if (! preg_match('/^[\w|\h]{5,}$/', $reason)) {
-            Throw new InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
     }
 
     // Super simple date validation, attempt to convert string to datetime,
     // Then back to string, if result matches original string, it's valid!
-    private function _validate_datetime($datetime = '') 
+    private function _validate_datetime($datetime = '')
     {
         $valid_format = 'Y-m-d H:i:s';
         $date = DateTime::createFromFormat($valid_format, $datetime);
         if (! $date || $date->format($valid_format) !== $datetime) {
-            Throw new InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
     }
 }
