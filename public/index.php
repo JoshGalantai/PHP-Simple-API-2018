@@ -27,30 +27,53 @@ $app->run();
 
         <hr>
 
+        <br>
         <label>
-            Request Type:
+            Action:
         </label>
         <br>
-        <select id="request_type">
-            <option value="GET">GET</option>
-            <option value="PUT">PUT</option>
-            <option value="POST">POST</option>
-            <option value="DELETE">DELETE</option>
+        <select id="action">
+            <option value="GETALL">GET ALL BOOKINGS</option>
+            <option value="POST">CREATE BOOKING</option>
+            <option value="GET">GET BOOKING BY ID</option>
+            <option value="PUT">UPDATE BOOKING BY ID</option>
+            <option value="DELETE">DELETE BOOKING BY ID</option>
         </select>
         <br>
         <br>
         <label>
-            URI:
+            ID:
         </label>
         <br>
-        <input id="request_uri" type="text" value="/bookings">
+        <input id="id" type="text" placeholder="1">
         <br>
         <br>
         <label>
-            Parameters:
+            Username:
         </label>
         <br>
-        <textarea id="request_params" rows="5" style="width:80%;">username=johndoe</textarea>
+        <input id="username" type="text" placeholder="johndoe">
+        <br>
+        <br>
+        <label>
+            Reason:
+        </label>
+        <br>
+        <input id="reason" type="text" placeholder="bronchitis">
+        <br>
+        <br>
+        <label>
+            Start:
+        </label>
+        <br>
+        <input id="start" type="text" placeholder="2018-01-01 00:00:00">
+        <br>
+        <br>
+        <label>
+            End:
+        </label>
+        <br>
+        <input id="end" type="text" placeholder="2018-01-01 00:00:00">
         <br>
 
         <hr>
